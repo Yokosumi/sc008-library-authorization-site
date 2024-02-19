@@ -53,7 +53,8 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 
 	const loadUsers = async () => {
 		const response = await axios.get(`${backendUrl}/users`);
-		const _users: IUser[] = response.data;
+		let _users: IUser[] = response.data;
+		_users = _users.filter((m) => m.login !== "anonymousUser");
 		setUsers(_users);
 	};
 

@@ -14,8 +14,10 @@ export interface IAddress {
 
 export interface IUser {
 	_id: string;
+	login: string;
 	firstName: string;
 	lastName: string;
+	accessGroups: string;
 	email: string;
 	address: IAddress;
 }

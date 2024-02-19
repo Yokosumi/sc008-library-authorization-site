@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import { useNavigate } from "react-router-dom";
-import * as tools from "../../backend/tools";
+import * as tools from "../tools";
 
 export const Nav = () => {
 	const { handleLogout, currentUser } = useContext(AppContext);
@@ -21,12 +21,12 @@ export const Nav = () => {
 				<li>
 					<NavLink to="/users">Users</NavLink>
 				</li>
-				{currentUser.fullName.trim() === "" && (
+				{tools.isMemberOfAccessGroup(currentUser, "loggedOutUsers") && (
 					<li>
 						<NavLink to="/login">Login</NavLink>
 					</li>
 				)}
-				{currentUser.fullName.trim() !== "" && (
+				{tools.isMemberOfAccessGroup(currentUser, "loggedInUsers") && (
 					<li>
 						<a
 							className="cursor-pointer"

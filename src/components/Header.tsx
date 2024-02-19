@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Nav } from "./Nav";
 import { AppContext } from "../AppContext";
-import * as tools from "../../backend/tools";
+import * as tools from "../tools";
 
 export const Header = () => {
 	const { currentUser } = useContext(AppContext);

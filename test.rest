@@ -53,6 +53,18 @@ content-type: application/json
 	}
 }
 
+### ADD ADMIN USER
+POST {{url}}/users
+content-type: application/json
+     
+{
+    "login": "ig",
+    "hash": "",
+    "firstName": "Isabella",
+    "lastName": "Graves",
+    "accessGroups": "loggedInUsers, members, administrators",
+    "email": "ig@htl.com"
+}
 
 ### GET ALL USERS
 GET {{url}}/users

@@ -6,9 +6,8 @@ export const userSchema = new mongoose.Schema(
 		hash: String,
 		firstName: String,
 		lastName: String,
-		mobile: Number,
-		email: String,
 		accessGroups: String,
+		email: String,
 	},
 	{
 		collection: "users",

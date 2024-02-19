@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 export const userSchema = new mongoose.Schema(
 	{
@@ -8,6 +8,7 @@ export const userSchema = new mongoose.Schema(
 		lastName: String,
 		mobile: Number,
 		email: String,
+		accessGroups: String,
 		address: {
 			street: String,
 			zipCode: String,
@@ -15,10 +16,10 @@ export const userSchema = new mongoose.Schema(
 		},
 	},
 	{
-		collection: 'users',
+		collection: "users",
 		timestamps: true,
 		versionKey: false,
 	}
 );
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model("User", userSchema);

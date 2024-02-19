@@ -66,6 +66,19 @@ content-type: application/json
     "email": "ig@htl.com"
 }
 
+### ADD ANONYMOUS USER
+POST {{url}}/users
+content-type: application/json
+
+{
+    "login": "anonymousUser",
+    "hash": "",
+    "firstName": "Anonymous",
+    "lastName": "User",
+    "accessGroups": "loggedOutUsers",
+    "email": ""
+}
+
 ### GET ALL USERS
 GET {{url}}/users
 	

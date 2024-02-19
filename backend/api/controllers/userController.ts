@@ -5,7 +5,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import * as config from "../../config";
 import * as jwttools from "../../jwttools";
-import * as tools from '../../tools';
+import * as tools from "../../tools";
 
 interface CustomRequest extends Request {
 	token: string;
@@ -101,7 +101,7 @@ export const loginUser = async (req: any, res: express.Response) => {
 				{ expiresIn: seconds + "s" },
 				(err: any, token: any) => {
 					res.json({
-						currentUser: tools.getCurrentUserFromUser(user), 
+						currentUser: tools.getCurrentUserFromUser(user),
 						token,
 					});
 				}
@@ -116,20 +116,23 @@ export const loginUser = async (req: any, res: express.Response) => {
 
 export const getCurrentUser = async (req: any, res: express.Response) => {
 	try {
+		const _anonymousUser = await User.findOne({ login: "anonymousUser" });
+		const anonymousUser = tools.getCurrentUserFromUser(_anonymousUser);
 		jwt.verify(
 			(req as unknown as CustomRequest).token,
 			config.sessionSecret(),
 			(err: any) => {
 				if (err) {
-					res.status(403).send("invalid token");
+					res.json({
+						currentUser: anonymousUser,
+					});
 				} else {
 					const data = jwttools.decodeJwt(
 						(req as unknown as CustomRequest).token
 					);
 					const currentUser = tools.getCurrentUserFromUser(data.user);
-					console.log(currentUser);
 					res.json({
-						currentUser 
+						currentUser,
 					});
 				}
 			}

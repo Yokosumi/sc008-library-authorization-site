@@ -138,10 +138,11 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 	};
 
 	const handleLogout = (onLoggedOut: () => void) => {
-		localStorage.removeItem('token');
+		localStorage.removeItem("token");
 		setCurrentUser(structuredClone(initialCurrentUser));
+		loadCurrentUser();
 		onLoggedOut();
-	}
+	};
 
 	return (
 		<AppContext.Provider
@@ -152,7 +153,7 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 				handleLoginFormFieldChange,
 				handleLoginFormSubmit,
 				currentUser,
-				handleLogout
+				handleLogout,
 			}}
 		>
 			{children}

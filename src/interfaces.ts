@@ -27,15 +27,17 @@ export interface ILoginFormData {
 }
 
 export const initialLoginformData = {
-	login: '',
-	password: '',
-	message: ''
-}
+	login: "",
+	password: "",
+	message: "",
+};
 
 export interface ICurrentUser {
 	fullName: string;
+	accessGroups: string;
 }
 
-export const initialCurrentUser:ICurrentUser = {
-	fullName: ''
-}
+export const initialCurrentUser: ICurrentUser = {
+	fullName: "",
+	accessGroups: "",
+};

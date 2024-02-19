@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import { useNavigate } from "react-router-dom";
+import * as tools from "../../backend/tools";
 
 export const Nav = () => {
 	const { handleLogout, currentUser } = useContext(AppContext);
@@ -27,9 +28,14 @@ export const Nav = () => {
 				)}
 				{currentUser.fullName.trim() !== "" && (
 					<li>
-						<a className="cursor-pointer" onClick={() => handleLogout(() => {
-							navigate('/login');
-						})}>
+						<a
+							className="cursor-pointer"
+							onClick={() =>
+								handleLogout(() => {
+									navigate("/login");
+								})
+							}
+						>
 							Logout
 						</a>
 					</li>

@@ -79,6 +79,19 @@ content-type: application/json
     "email": ""
 }
 
+### ADD NORMAL MEMBER
+POST {{url}}/users
+content-type: application/json
+     
+    {
+        "login": "ls",
+        "hash": "",
+        "firstName": "Leon",
+        "lastName": "Schmitt",
+        "accessGroups": "loggedInUsers, members",
+        "email": "ls@htl.com"
+    }
+
 ### GET ALL USERS
 GET {{url}}/users
 	

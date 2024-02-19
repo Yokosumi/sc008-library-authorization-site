@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Nav } from "./Nav";
 import { AppContext } from "../AppContext";
 import * as tools from "../tools";
+import * as config from "../config";
 
 export const Header = () => {
 	const { currentUser } = useContext(AppContext);
@@ -16,6 +17,13 @@ export const Header = () => {
 					</div>
 				)}
 			</h1>
+
+			{config.isDebugging() && (
+				<div className="bg-black text-yellow-300 text-sm p-2 font-mono border-dashed border-red-800 border-4 mb-3 w-fit">
+					CURRENT USER: {currentUser.fullName} -{" "}
+					{currentUser.accessGroups}
+				</div>
+			)}
 			<Nav />
 		</>
 	);

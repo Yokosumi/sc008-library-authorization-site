@@ -141,3 +141,22 @@ export const getCurrentUser = async (req: any, res: express.Response) => {
 		handleError(res, e);
 	}
 };
+
+export const updateProfile = async (req: any, res: express.Response) => {
+	try {
+		const { login, firstName, lastName, email } = req.body;
+		const user = await User.findOne({ login });
+		if (user) {
+			user.login = login;
+			user.firstName = firstName;
+			user.lastName = lastName;
+			user.email = email;
+			await User.findByIdAndUpdate(user.id, user);
+			res.json({ status: "updated" });
+		} else {
+			res.status(500).json({ status: "error" });
+		}
+	} catch (err) {
+		res.status(500).json({ status: "error" });
+	}
+};

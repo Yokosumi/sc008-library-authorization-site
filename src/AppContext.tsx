@@ -187,7 +187,7 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 			formData.append("login", formFields.login);
 			formData.append("email", formFields.email);
 			formData.append("fileName", uploadFile.file.name);
-			await fetch(`${backendUrl}/uploadfile`, {
+			await fetch(`${backendUrl}/users/uploadfile`, {
 				method: "POST",
 				body: formData,
 			});

@@ -12,6 +12,7 @@ import { PageBooks } from "./pages/PageBooks.tsx";
 import { PageUsers } from "./pages/PageUsers.tsx";
 import { AppProvider } from "./AppContext.tsx";
 import { PageLogin } from "./pages/PageLogin.tsx";
+import { PageProfile } from "./pages/PageProfile.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
 			{
 				path: "login",
 				element: <PageLogin />,
+			},
+			{
+				path: "profile",
+				element: <PageProfile />,
 			},
 			{
 				path: "/",

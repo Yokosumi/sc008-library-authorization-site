@@ -64,7 +64,7 @@ export interface IFormFields {
 	email: string;
 }
 
-export const _intialFormFields = {
+export const _initialFormFields = {
 	firstName: "",
 	lastName: "",
 	login: "",

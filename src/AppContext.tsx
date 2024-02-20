@@ -1,15 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
 import { createContext, useEffect, useState } from "react";
 import {
 	IBook,
 	ICurrentUser,
+	IFileItem,
+	IFormFields,
 	ILoginFormData,
+	IUploadFile,
 	IUser,
+	_initialFormFields,
+	_initialUploadFile,
 	initialCurrentUser,
 	initialLoginformData,
 } from "./interfaces";
 import axios from "axios";
+import * as tools from "./tools";
 
 const backendUrl = "http://localhost:4211";
 
@@ -27,6 +32,16 @@ interface IAppContext {
 	) => void;
 	currentUser: ICurrentUser;
 	handleLogout: (onLoggedOut: () => void) => void;
+	uploadFile: IUploadFile;
+	formFields: IFormFields;
+	setFormFields: (field: IFormFields) => void;
+	fileItems: IFileItem[];
+	handleImageUploadForm: (e: React.FormEvent<HTMLFormElement>) => void;
+	handleImageFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleFormFieldChange: (
+		e: React.ChangeEvent<HTMLInputElement>,
+		fieldName: string
+	) => void;
 }
 
 interface IAppProvider {
@@ -44,6 +59,13 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState<ICurrentUser>(
 		structuredClone(initialCurrentUser)
 	);
+	const [uploadFile, setUploadFile] = useState<IUploadFile>({
+		..._initialUploadFile,
+	});
+	const [formFields, setFormFields] = useState<IFormFields>({
+		..._initialFormFields,
+	});
+	const [fileItems] = useState<IFileItem[]>([]);
 
 	const loadBooks = async () => {
 		const response = await axios.get(`${backendUrl}/books`);
@@ -69,6 +91,10 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 			});
 			if (response.status === 200) {
 				const _currentUser = response.data.currentUser;
+				tools.fillProfileFormFieldsWithCurrentUserFields(
+					formFields,
+					_currentUser
+				);
 				setCurrentUser(_currentUser);
 			} else {
 				setCurrentUser(structuredClone(initialCurrentUser));
@@ -145,6 +171,49 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 		onLoggedOut();
 	};
 
+	const handleImageUploadForm = async (
+		e: React.FormEvent<HTMLFormElement>
+	) => {
+		e.preventDefault();
+		if (uploadFile.file && formFields.firstName.trim() !== "") {
+			const formData = new FormData();
+			formData.append("file", uploadFile.file);
+			formData.append("firstName", formFields.firstName);
+			formData.append("lastName", formFields.lastName);
+			formData.append("login", formFields.login);
+			formData.append("email", formFields.email);
+			formData.append("fileName", uploadFile.file.name);
+			await fetch(`${backendUrl}/uploadfile`, {
+				method: "POST",
+				body: formData,
+			});
+			setFormFields({ ..._initialFormFields });
+			setUploadFile({ ..._initialUploadFile });
+		} // TODO: error checking
+	};
+
+	const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files !== null) {
+			const file = e.target.files[0];
+			const _uploadFile = {
+				file,
+				preview: URL.createObjectURL(file),
+			};
+			setUploadFile(_uploadFile);
+		} else {
+			console.log("ERROR: files is null");
+		}
+	};
+
+	const handleFormFieldChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		fieldName: string
+	) => {
+		const value = e.target.value;
+		formFields[fieldName as keyof IFormFields] = value;
+		setFormFields({ ...formFields });
+	};
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -155,6 +224,13 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 				handleLoginFormSubmit,
 				currentUser,
 				handleLogout,
+				uploadFile,
+				formFields,
+				setFormFields,
+				fileItems,
+				handleImageUploadForm,
+				handleImageFileChange,
+				handleFormFieldChange,
 			}}
 		>
 			{children}

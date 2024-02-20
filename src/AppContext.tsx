@@ -150,6 +150,10 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
 				);
 				if (response.status === 200) {
 					localStorage.setItem("token", response.data.token);
+					tools.fillProfileFormFieldsWithCurrentUserFields(
+						formFields,
+						response.data.currentUser
+					);
 					setCurrentUser(response.data.currentUser);
 					setLoginFormData(structuredClone(initialLoginformData));
 					onSuccess();

@@ -47,3 +47,36 @@ export const initialCurrentUser: ICurrentUser = {
 	login: "",
 	email: "",
 };
+
+export interface IFileItem {
+	firstName: string;
+	lastName: string;
+	login: string;
+	email: string;
+	fileName: string;
+	iconPathAndFileName: string;
+}
+
+export interface IFormFields {
+	firstName: string;
+	lastName: string;
+	login: string;
+	email: string;
+}
+
+export const _intialFormFields = {
+	firstName: "",
+	lastName: "",
+	login: "",
+	email: "",
+};
+
+export interface IUploadFile {
+	file: File | null;
+	preview: string;
+}
+
+export const _initialUploadFile: IUploadFile = {
+	preview: "",
+	file: null,
+};
